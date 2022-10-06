@@ -1,5 +1,6 @@
 package com.example.restwebServices.restfulwebservices.user;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +31,20 @@ public class UserResource {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> saveUser(@RequestBody User user){
+    public ResponseEntity<User> saveUser(@Valid @RequestBody User user){
         service.saveForOne(user);
         URI location = URI.create(String.format("/users/%s", user.getId()));
         return ResponseEntity.created(location).build();
     }
 
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable int id) {
+        User user = service.findOne(id);
+        if (user == null) {
+            throw new UserNotFoundException("id-" + id);
+        }
+        service.deleteUser(id);
+    }
 
 
 }
