@@ -1,13 +1,15 @@
 package com.learnjpahibernate.learnJpaHibernate.course;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 
+@Entity
 public class Course {
-
+        @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         private Long id;
+        @Column(name = "name")
         private String name;
+        @Column(name = "author")
         private String author;
 
         public Course() {
