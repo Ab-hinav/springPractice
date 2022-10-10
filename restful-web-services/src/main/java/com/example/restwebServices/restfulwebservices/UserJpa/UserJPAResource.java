@@ -1,6 +1,7 @@
 package com.example.restwebServices.restfulwebservices.UserJpa;
 
 import com.example.restwebServices.restfulwebservices.posts.Post;
+import com.example.restwebServices.restfulwebservices.posts.postJpa;
 import com.example.restwebServices.restfulwebservices.user.User;
 import com.example.restwebServices.restfulwebservices.user.UserDaoService;
 import com.example.restwebServices.restfulwebservices.user.UserNotFoundException;
@@ -19,10 +20,12 @@ public class UserJPAResource {
 
     private UserDaoService service;
     private userJpaRepo repo;
+    private postJpa postRepo;
 
-    public UserJPAResource(UserDaoService service , userJpaRepo repo) {
+    public UserJPAResource(UserDaoService service , userJpaRepo repo, postJpa postRepo) {
         this.service = service;
         this.repo = repo;
+        this.postRepo = postRepo;
     }
 
     @GetMapping("/jpa/users")
@@ -63,6 +66,17 @@ public class UserJPAResource {
         return user.get().getPosts();
     }
 
-
+    @PostMapping("/jpa/users/{id}/posts")
+    public ResponseEntity<Post> savePostForUser(@PathVariable int id,@Valid @RequestBody Post post){
+        Optional<User> user = repo.findById(id);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("id-" + id);
+        }
+        User user1 = user.get();
+        post.setUser(user1);
+        postRepo.save(post);
+        URI location = URI.create(String.format("/jpa/users/%s/posts", user1.getId()));
+        return ResponseEntity.created(location).build();
+    }
 
 }
