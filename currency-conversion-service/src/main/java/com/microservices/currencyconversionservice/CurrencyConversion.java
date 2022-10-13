@@ -22,6 +22,16 @@ public class CurrencyConversion {
         this.quantity = quantity;
     }
 
+    public CurrencyConversion(Long id, String from, String to, BigDecimal conversionMultiple, BigDecimal quantity, BigDecimal multiply, String environment) {
+    this.id = id;
+    this.from = from;
+    this.to = to;
+    this.conversionMultiple = conversionMultiple;
+    this.quantity = quantity;
+    this.totalCalculatedAmount = multiply;
+    this.environment = environment;
+    }
+
     public Long getId() {
         return id;
     }
