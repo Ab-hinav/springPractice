@@ -24,7 +24,7 @@ public class CurrencyConversionController {
         ResponseEntity<CurrencyConversion> responseEntity = new RestTemplate().getForEntity("http://localhost:8000/currency-exchange/from/{from}/to/{to}", CurrencyConversion.class, uriVariables);
         CurrencyConversion currencyConversion = responseEntity.getBody();
 
-        return new CurrencyConversion(currencyConversion.getId(), from, to, currencyConversion.getConversionMultiple(), quantity, quantity.multiply(currencyConversion.getConversionMultiple()), currencyConversion.getEnvironment());
+        return new CurrencyConversion(currencyConversion.getId(), from, to, currencyConversion.getConversionMultiple(), quantity, quantity.multiply(currencyConversion.getConversionMultiple()), currencyConversion.getEnvironment()+ " rest template");
     }
 
     @GetMapping("/currency-converter-feign/from/{from}/to/{to}/quantity/{quantity}")
@@ -32,6 +32,7 @@ public class CurrencyConversionController {
 
          CurrencyConversion currencyConversion = proxy.retrieveExchangeValue(from, to);
 
+         return new CurrencyConversion(currencyConversion.getId(), from, to, currencyConversion.getConversionMultiple(), quantity, quantity.multiply(currencyConversion.getConversionMultiple()), currencyConversion.getEnvironment()+" feign");
 
 
     }
@@ -39,4 +40,4 @@ public class CurrencyConversionController {
 
 }
 
-}
+

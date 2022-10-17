@@ -1,18 +1,17 @@
 package com.microservices.currencyexchangeservice;
 
+//import com.netflix.discovery.DiscoveryClient;
+//import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.math.BigDecimal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CurrencyExchangeController {
     @Autowired
     private Environment environment;
-
+//    @Autowired
+//    private DiscoveryClient discoveryClient;
     @Autowired
     private CurrencyExchangeRepository repository;
 
@@ -28,5 +27,11 @@ public class CurrencyExchangeController {
         currencyExchange.setEnvironment(environment.getProperty("local.server.port"));
         return currencyExchange;
     }
+
+//    @RequestMapping("/service-instances/{applicationName}")
+//    public Application serviceInstancesByApplicationName(
+//            @PathVariable String applicationName) {
+//        return this.discoveryClient.getApplication(applicationName);
+//    }
 
 }
